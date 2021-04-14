@@ -8,18 +8,14 @@ services:
     volumes:
       - ./src:/var/www/html
       - ./.docker/etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - www
   phpfpm:
     build:
       context: ./.docker
       dockerfile: php/Dockerfile
+      args:
+        # install xdebug when APP_ENV = local only
+        APP_ENV: local
     volumes:
       - ./src:/var/www/html:delegated
-    networks:
-      - www
     environment:
       XDEBUG_CONFIG: client_host=host.docker.internal
-
-networks:
-  www:
