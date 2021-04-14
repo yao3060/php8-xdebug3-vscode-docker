@@ -1,5 +1,5 @@
 <?php
-// phpinfo();
+
 echo '<pre>';
 $arr = array(1, 2, 3, 4);
 
