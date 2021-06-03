@@ -1,5 +1,12 @@
-# JetBrains IDE
-.idea/
+.DS_Store
+.idea
+.project
+.vscode
+tmp
+Thumbs.db
 
-# xdebug
-tmp/
+*.swp
+*.swo
+
+.env
+.env.bak

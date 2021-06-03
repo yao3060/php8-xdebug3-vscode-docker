@@ -28,6 +28,8 @@ services:
     image: mysql:8
     restart: "no"
     restart: always
+    ports:
+      - 8084:3306
     volumes:
       - lumen-db:/var/lib/mysql
     environment:
@@ -44,3 +46,4 @@ services:
 
 volumes:
   lumen-db:
+
