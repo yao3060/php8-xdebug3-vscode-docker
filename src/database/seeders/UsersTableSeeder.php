@@ -10,6 +10,18 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
+        $su = User::query()->where('username', 'super-admin')->first();
+        if (!$su) {
+            /**@var User $admin */
+            $admin = User::create([
+                'display_name' => 'SuperAdmin',
+                'username' => 'super-admin',
+                'email' => 'super-admin@app.com',
+                'password' => Hash::make('password')
+            ]);
+            $admin->assignRole('super-admin');
+        }
+
         $admin = User::query()->where('username', 'administrator')->first();
         if (!$admin) {
             /**@var User $admin */

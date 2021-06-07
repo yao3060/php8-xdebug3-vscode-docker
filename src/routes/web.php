@@ -14,6 +14,9 @@
 */
 
 $router->get('/', function () use ($router) {
-    phpinfo();
     return $router->app->version();
+});
+
+$router->group(['prefix' => 'auth/v1'], function () use ($router) {
+    $router->post('login', ['as' => 'auth.login', 'uses' => 'AuthController@login']);
 });
