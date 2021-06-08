@@ -1,4 +1,10 @@
-FROM php:8-fpm-alpine
+FROM composer:2 as composer
+
+# copy source code to image
+COPY ./src/composer.json ./src/composer.lock /app/
+RUN composer install --no-scripts --no-autoloader --no-dev --prefer-dist -vvv
+
+FROM php:8-fpm-alpine as php
 
 ARG APP_ENV
 # add phpredis to php-available-exts (install in the next step)
@@ -39,7 +45,11 @@ RUN { \
 # copy PHP configuration to image
 
 # copy source code to image
+COPY --from=composer /app/vendor /var/www/html/vendor
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY ./src /var/www/html
+
+RUN /usr/bin/composer dump-autoload
 
 # Run this after copy source to image instead of /start
 RUN touch /var/www/html/storage/logs/lumen.log && \
@@ -48,3 +58,9 @@ RUN touch /var/www/html/storage/logs/lumen.log && \
   find /var/www/html -type d -exec chmod 755 {} \; && \
   chmod -R 775 /var/www/html/storage  && \
   chmod +x /var/www/html/artisan
+
+## Add the wait script to the image
+COPY ./wait /var/www/html/wait
+RUN chmod +x /var/www/html/wait
+
+CMD ["./wait","php-fpm"]
