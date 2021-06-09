@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
+use Jenssegers\Agent\Agent;
 
 class AuthController extends Controller
 {
@@ -31,13 +32,14 @@ class AuthController extends Controller
         $user = User::where('username', $credentials['username'])->first();
 
         if ($user && !$user->status && !$token = Auth::attempt($credentials)) {
-            Cache::put('auth:token:' . $user->id, $token);
             return response()->json([
                 'code' => 'unauthorized',
                 'message' => 'Unauthorized'
             ], 401);
         }
 
+        $cacheKey = 'auth:token:' . $user->id;
+        Redis::hSet($cacheKey, $token, $request->header('user-agent', 'unknown'));
         return $this->respondWithToken($token);
     }
 
@@ -48,7 +50,11 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json([
+            'code' => 'me',
+            'message' => 'Me',
+            'data' => Auth::user()
+        ]);
     }
 
     /**
@@ -58,9 +64,12 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
+        Auth::logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json([
+            'code' => 'logged_out',
+            'message' => 'Successfully logged out'
+        ]);
     }
 
     /**
@@ -70,7 +79,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(Auth::refresh());
     }
 
     /**

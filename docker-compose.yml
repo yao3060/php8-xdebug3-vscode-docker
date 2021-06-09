@@ -55,6 +55,8 @@ services:
   lumen_cache:
     image: redis:alpine
     restart: always
+    ports:
+      - 63790:6379
 
 volumes:
   lumen-db:

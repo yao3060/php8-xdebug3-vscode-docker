@@ -1,6 +1,9 @@
-# PHP8 xdebug3 vscode docker on MacOS
+# Lumen Boilerplate
+
+PHP8 xdebug3 vscode docker on MacOS
 
 **start test**
+
 ```
-docker-compose build && docker-compose up
+./start
 ```

@@ -1,0 +1,29 @@
+@BASE_URL=http://localhost:8083
+@TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODA4M1wvYXV0aFwvdjFcL2xvZ2luIiwiaWF0IjoxNjIzMjIzMTk3LCJleHAiOjE2MjMyMjY3OTcsIm5iZiI6MTYyMzIyMzE5NywianRpIjoiZmRaZWpNdm8xNUdpMWJYbCIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.Pm5OoCU81e0lJJSkkoBzQYv8Siq87JWYJxJD4Ie6cs4
+@ContentType="application/json"
+@Accept="application/json"
+
+
+### Login
+POST {{BASE_URL}}/auth/v1/login
+Content-Type: {{ContentType}}
+Accept: {{Accept}}
+
+{
+    "username": "administrator",
+    "password": "password"
+}
+
+
+### Me
+GET {{BASE_URL}}/auth/v1/me
+Content-Type: {{ContentType}}
+Accept: {{Accept}}
+Authorization: bearer {{TOKEN}}
+
+
+### Me
+GET {{BASE_URL}}/auth/v1/me
+Content-Type: {{ContentType}}
+Accept: {{Accept}}
+Authorization: bearer {{TOKEN}}
