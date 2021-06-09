@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b76f80683f404a12afd83c629f14545",
+    "content-hash": "53e21390c62c9c97135c8a4fc25ffb93",
     "packages": [
         {
             "name": "brick/math",
@@ -2075,6 +2075,57 @@
                 "source": "https://github.com/lcobucci/jwt/tree/3.2"
             },
             "time": "2018-11-11T12:22:26+00:00"
+        },
+        {
+            "name": "marcha/lumen-routes-list",
+            "version": "v2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/marcha/lumen-route-list.git",
+                "reference": "0826bfa8921c71debcdfe6b67a36cbd52d9eb781"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/marcha/lumen-route-list/zipball/0826bfa8921c71debcdfe6b67a36cbd52d9eb781",
+                "reference": "0826bfa8921c71debcdfe6b67a36cbd52d9eb781",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^6.0||^7.0||^8.0",
+                "illuminate/support": "^6.0||^7.0||^8.0",
+                "php": ">=7.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Marcha\\LumenRoutesList\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sohel Amin",
+                    "email": "sohelamincse@gmail.com",
+                    "homepage": "http://www.appzcoder.com"
+                },
+                {
+                    "name": "Nikola Marčić",
+                    "email": "marcic74@gmail.com",
+                    "homepage": "http://www.delmax.rs"
+                }
+            ],
+            "description": "Display the route list of Lumen",
+            "keywords": [
+                "lumen",
+                "route list"
+            ],
+            "support": {
+                "source": "https://github.com/marcha/lumen-route-list/tree/v2.1.1"
+            },
+            "time": "2020-12-20T10:55:23+00:00"
         },
         {
             "name": "monolog/monolog",

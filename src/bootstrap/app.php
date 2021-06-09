@@ -103,6 +103,11 @@ $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't ha
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
 
+if (env('APP_ENV') !== 'prod' && env('APP_ENV') !== 'production') {
+    $app->register(Marcha\LumenRoutesList\RoutesCommandServiceProvider::class);
+}
+
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
