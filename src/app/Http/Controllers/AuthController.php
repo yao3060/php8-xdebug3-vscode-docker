@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
-use Jenssegers\Agent\Agent;
 
 class AuthController extends Controller
 {
@@ -16,9 +15,35 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(protected string $tokenCacheKeyPrefix = 'auth:token:')
     {
-        $this->middleware('auth', ['except' => ['login', 'register']]);
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'display_name' => ['required'],
+            'username' => ['required', 'min:6', 'unique:users'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required', \Illuminate\Validation\Rules\Password::min(6)]
+        ]);
+
+        try {
+            $user = User::myCreate($request->only(['display_name', 'username', 'email', 'password']));
+            $user->assignRole('subscriber');
+
+            return response()->json([
+                'code' => 'registered',
+                'message' => 'Register successfully.',
+                'data' => $user
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'code' => 'register_failed',
+                'message' => $th->getMessage(),
+                'data' => $th->getTrace()
+            ]);
+        }
     }
 
     /**
@@ -38,8 +63,13 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $cacheKey = 'auth:token:' . $user->id;
-        Redis::hSet($cacheKey, $token, $request->header('user-agent', 'unknown'));
+        $cacheKey = $this->tokenCacheKeyPrefix . $user->id;
+        if (Redis::hLen($cacheKey) >= 4) {
+            $fields = Redis::hKeys($cacheKey);
+            Redis::hDel($cacheKey, $fields[0]);
+        }
+        Redis::hSet($cacheKey, $this->checksum($token), $request->header('user-agent', 'unknown'));
+
         return $this->respondWithToken($token);
     }
 
@@ -62,8 +92,10 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
+        Redis::hDel($this->tokenCacheKeyPrefix . Auth::id(), $this->checksum($request->bearerToken()));
+
         Auth::logout();
 
         return response()->json([
@@ -100,5 +132,10 @@ class AuthController extends Controller
                 'expires_in' => Auth::factory()->getTTL() * 3600
             ]
         ]);
+    }
+
+    protected function checksum($token)
+    {
+        return sprintf("%u\n", crc32($token));
     }
 }

@@ -60,7 +60,23 @@ RUN touch /var/www/html/storage/logs/lumen.log && \
   chmod +x /var/www/html/artisan
 
 ## Add the wait script to the image
-COPY ./wait /var/www/html/wait
-RUN chmod +x /var/www/html/wait
+COPY ./.docker/wait /wait
+RUN chmod +x /wait
 
-CMD ["./wait","php-fpm"]
+# copy start script to image
+COPY ./.docker/php/start /start
+RUN chmod +x /start
+
+CMD ["/wait", "/start", "php-fpm"]
+
+
+FROM nginx:1.19-alpine as nginx
+# copy NGINX configuration to image
+COPY .docker/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
+COPY .docker/nginx/snippets/cors /etc/nginx/snippets/cors
+
+# copy src/public folder to NGINX
+COPY ./src/public /var/www/html/public
+
+# set folder permissions
+RUN find /var/www/html -type d -exec chmod 755 {} \;

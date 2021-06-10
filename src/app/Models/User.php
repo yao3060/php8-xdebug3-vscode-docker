@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
@@ -60,5 +61,17 @@ class User extends Model implements
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * create a user
+     *
+     * @param array $data
+     * @return User|null
+     */
+    public static function myCreate(array $data): ?User
+    {
+        $data['password'] = Hash::make($data['password']);
+        return static::query()->create($data);
     }
 }

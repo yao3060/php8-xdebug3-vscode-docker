@@ -30,8 +30,15 @@ class AuthServiceProvider extends ServiceProvider
         // should return either a User instance or null. You're free to obtain
         // the User instance via an API token or any other method necessary.
 
-        /** @var \Illuminate\Auth\AuthManager $auth */
-        $auth = $this->app['auth'];
+        Gate::policy(User::class, UserPolicy::class);
+        // Implicitly grant "Super Admin" role all permissions
+        // This works in the app by using gate-related functions like auth()->user->can() and @can()
+        Gate::before(function (User $user, $ability) {
+            if ($user->hasAnyRole(['super-admin'])) {
+                return true;
+            }
+        });
+
         $this->app['auth']->viaRequest('api', function ($request) {
             if ($request->input('api_token')) {
                 return User::where('api_token', $request->input('api_token'))->first();

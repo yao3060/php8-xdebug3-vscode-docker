@@ -18,7 +18,12 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'auth/v1'], function () use ($router) {
+    $router->post('register', ['as' => 'auth.register', 'uses' => 'AuthController@register']);
     $router->post('login', ['as' => 'auth.login', 'uses' => 'AuthController@login']);
-    $router->post('logout', ['as' => 'auth.logout', 'uses' => 'AuthController@logout']);
+});
+
+
+$router->group(['prefix' => 'auth/v1', 'middleware' => 'auth'], function () use ($router) {
     $router->get('me', ['as' => 'auth.me', 'uses' => 'AuthController@me']);
+    $router->post('logout', ['as' => 'auth.logout', 'uses' => 'AuthController@logout']);
 });

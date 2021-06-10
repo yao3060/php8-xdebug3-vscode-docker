@@ -107,7 +107,6 @@ if (env('APP_ENV') !== 'prod' && env('APP_ENV') !== 'production') {
     $app->register(Marcha\LumenRoutesList\RoutesCommandServiceProvider::class);
 }
 
-
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

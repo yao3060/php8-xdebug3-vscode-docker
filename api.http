@@ -1,5 +1,5 @@
 @BASE_URL=http://localhost:8083
-@TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODA4M1wvYXV0aFwvdjFcL2xvZ2luIiwiaWF0IjoxNjIzMjIzMTk3LCJleHAiOjE2MjMyMjY3OTcsIm5iZiI6MTYyMzIyMzE5NywianRpIjoiZmRaZWpNdm8xNUdpMWJYbCIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.Pm5OoCU81e0lJJSkkoBzQYv8Siq87JWYJxJD4Ie6cs4
+@TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODA4M1wvYXV0aFwvdjFcL2xvZ2luIiwiaWF0IjoxNjIzMjk1OTYxLCJleHAiOjE2MjMyOTk1NjEsIm5iZiI6MTYyMzI5NTk2MSwianRpIjoiZ0h5RVZQSFRFNk9YRVU5QyIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.sQNKesf4qJLuZrPkcKgEGW79PeBUw-RcNo1661fCVi0
 @ContentType="application/json"
 @Accept="application/json"
 
@@ -7,6 +7,7 @@
 ### Login
 POST {{BASE_URL}}/auth/v1/login
 Content-Type: {{ContentType}}
+User-Agent: HuaWei2
 Accept: {{Accept}}
 
 {
