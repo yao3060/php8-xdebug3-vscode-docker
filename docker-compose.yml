@@ -3,12 +3,12 @@ version: "3.7"
 
 services:
   lumen_nginx:
-    image: ${COMPOSE_PROJECT_NAME}_lumen_nginx
+    image: ${ALIYUN_CONTAINER_REGISTRY}/${COMPOSE_PROJECT_NAME}_lumen_nginx
     container_name: ${COMPOSE_PROJECT_NAME}_lumen_nginx
     restart: always
 
   lumen_php:
-    image: ${COMPOSE_PROJECT_NAME}_lumen_php
+    image: ${ALIYUN_CONTAINER_REGISTRY}/${COMPOSE_PROJECT_NAME}_lumen_php
     container_name: ${COMPOSE_PROJECT_NAME}_lumen_php
     restart: always
 
