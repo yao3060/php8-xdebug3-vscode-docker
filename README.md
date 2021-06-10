@@ -15,6 +15,7 @@ PHP8 xdebug3 vscode docker on MacOS
 -   cache (redis:6)
 -   db (mysql:8)
 -   adminer
+-   phpRedisAdmin
 
 ## preinstalled packages
 
