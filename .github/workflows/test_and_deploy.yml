@@ -79,11 +79,13 @@ jobs:
       # 1.2 Buid and push image to ACR
       - name: Build and push image to ACR
         run: |
-          docker build --target php --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA" -f .docker/Dockerfile .
-          docker build --target nginx --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA" -f .docker/Dockerfile .
-          docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA"
+          # docker build --target php --tag "${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA" -f .docker/Dockerfile .
+          # docker tag ${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA
+          # docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA"
+          # docker tag $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest
+          # docker push $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest
+          docker build --target nginx --tag "${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA" -f .docker/Dockerfile .
+          docker tag ${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA
           docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA
-          docker tag $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest
           docker tag $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:latest
-          docker push $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest
           docker push $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:latest
