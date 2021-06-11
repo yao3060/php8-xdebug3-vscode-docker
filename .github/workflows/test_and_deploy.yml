@@ -13,7 +13,7 @@ env:
   NAMESPACE: yao3060
   IMAGE: lumen8-boilerplate
   IMAGE_PREFIX: lumen8-boilerplate
-  TAG: $(git rev-parse --short HEAD)
+  TAG: $(git rev-parse --short ${{ github.sha }})
   ACK_CLUSTER_ID: clusterID
   ACK_DEPLOYMENT_NAME: nginx-deployment
   ENVIRONMENT: staging
@@ -54,13 +54,17 @@ jobs:
     environment: staging
 
     steps:
-      - name: Set outputs
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: get shortsha
         id: vars
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-      - name: Check outputs
         run: |
-          echo ${{ steps.vars.outputs.sha_short }}
-          echo $TAG
+          echo ::set-output name=sha_short::$(git rev-parse --short=4 ${{ github.sha }})
+      - name: use env
+        run: |
+          echo $SHORTSHA
+        env:
+          SHORTSHA: ${{ steps.vars.outputs.sha_short }}
 
       # - name: Checkout
       #   uses: actions/checkout@v2
