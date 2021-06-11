@@ -77,18 +77,11 @@ jobs:
           access-key-secret: "${{ secrets.ACCESS_KEY_SECRET }}"
 
       # 1.2 Buid and push image to ACR
-      - name: Build and push image to ACR
+      - name: Build and push Nginx to ACR
         env:
           SHORTSHA: ${{ steps.vars.outputs.sha_short }}
         run: |
-          echo $SHORTSHA
-          # docker build --target php --tag "${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA" -f .docker/Dockerfile .
-          # docker tag ${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA
-          # docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA"
-          # docker tag $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest
-          # docker push $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest
-          docker build --target nginx --tag "${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA" -f .docker/Dockerfile .
-          docker tag ${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA
+          docker build --target nginx --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA" -f .docker/Dockerfile .
           docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA
           docker tag $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:latest
           docker push $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:latest
