@@ -10,8 +10,12 @@
         </testsuite>
     </testsuites>
     <php>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value="database/database.sqlite"/>
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="JWT_SECRET" value="JWT_SECRET" />
+        <env name="JWT_TTL" value="7200" />
     </php>
 </phpunit>

@@ -49,7 +49,7 @@ services:
   lumen_cache:
     image: redis:alpine
     restart: always
-    command: --loglevel verbose
+    # command: --loglevel verbose
 
   adminer:
     image: adminer

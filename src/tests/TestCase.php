@@ -11,6 +11,16 @@ abstract class TestCase extends BaseTestCase
      */
     public function createApplication()
     {
-        return require __DIR__.'/../bootstrap/app.php';
+        return require __DIR__ . '/../bootstrap/app.php';
+    }
+
+    public function test_database()
+    {
+        $this->assertEquals('database/database.sqlite', env('DB_DATABASE'));
+    }
+
+    public function test_db_connection()
+    {
+        $this->assertEquals('sqlite', env('DB_CONNECTION'));
     }
 }
