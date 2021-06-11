@@ -93,5 +93,5 @@ jobs:
           region-id: "${{ env.REGION_ID }}"
           access-key-id: "${{ secrets.ACCESS_KEY_ID }}"
           access-key-secret: "${{ secrets.ACCESS_KEY_SECRET }}"
-          repository: "${{ env.NAMESPACE }}/${{ env.IMAGE_PREFIX }}_${{env.ENVIRONMENT}}_lumen_nginx"
+          repository: "${{env.REGISTRY}}/${{ env.NAMESPACE }}/${{ env.IMAGE_PREFIX }}_${{env.ENVIRONMENT}}_lumen_nginx"
           tag: "${{ env.SHORTSHA }}"
