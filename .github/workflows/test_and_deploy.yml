@@ -13,7 +13,7 @@ env:
   NAMESPACE: yao3060
   IMAGE: lumen8-boilerplate
   IMAGE_PREFIX: lumen8-boilerplate
-  TAG: ${${{ github.sha }}:0:8}
+  TAG: $(git rev-parse --short HEAD)
   ACK_CLUSTER_ID: clusterID
   ACK_DEPLOYMENT_NAME: nginx-deployment
   ENVIRONMENT: staging
@@ -54,25 +54,33 @@ jobs:
     environment: staging
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      # 1.1 Login to ACR
-      - name: Login to ACR with the AccessKey pair
-        uses: aliyun/acr-login@v1
-        with:
-          region-id: "${{ env.REGION_ID }}"
-          access-key-id: "${{ secrets.ACCESS_KEY_ID }}"
-          access-key-secret: "${{ secrets.ACCESS_KEY_SECRET }}"
-
-      # 1.2 Buid and push image to ACR
-      - name: Build and push image to ACR
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: Check outputs
         run: |
-          docker build --target php --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$TAG" -f .docker/Dockerfile .
-          docker build --target nginx --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$TAG" -f .docker/Dockerfile .
-          docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$TAG"
-          docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$TAG
-          docker tag $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$TAG $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest
-          docker tag $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$TAG $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:latest
-          docker push $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest
-          docker push $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:latest
+          echo ${{ steps.vars.outputs.sha_short }}
+          echo $TAG
+
+      # - name: Checkout
+      #   uses: actions/checkout@v2
+
+      # # 1.1 Login to ACR
+      # - name: Login to ACR with the AccessKey pair
+      #   uses: aliyun/acr-login@v1
+      #   with:
+      #     region-id: "${{ env.REGION_ID }}"
+      #     access-key-id: "${{ secrets.ACCESS_KEY_ID }}"
+      #     access-key-secret: "${{ secrets.ACCESS_KEY_SECRET }}"
+
+      # # 1.2 Buid and push image to ACR
+      # - name: Build and push image to ACR
+      #   run: |
+      #     docker build --target php --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$TAG" -f .docker/Dockerfile .
+      #     docker build --target nginx --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$TAG" -f .docker/Dockerfile .
+      #     docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$TAG"
+      #     docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$TAG
+      #     docker tag $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$TAG $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest
+      #     docker tag $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$TAG $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:latest
+      #     docker push $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest
+      #     docker push $REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:latest
