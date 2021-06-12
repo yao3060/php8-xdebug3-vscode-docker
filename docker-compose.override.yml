@@ -57,7 +57,7 @@ services:
     environment:
       - ADMINER_DEFAULT_SERVER=lumen_db
     ports:
-      - 33060:8080
+      - "8080"
 
   phpredisadmin:
     image: erikdubbelboer/phpredisadmin
@@ -67,7 +67,7 @@ services:
     depends_on:
       - lumen_cache
     ports:
-      - 63790:80
+      - "80"
 
 volumes:
   lumen-db:

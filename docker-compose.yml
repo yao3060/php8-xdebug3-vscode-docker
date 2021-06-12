@@ -13,16 +13,12 @@ services:
     restart: always
 
   lumen_db:
-    image: mysql:8
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
+    restart: "no"
 
   lumen_cache:
-    image: redis:alpine
-    restart: always
+    restart: "no"
 
   adminer:
-    image: adminer
     restart: "no"
 
   phpredisadmin:
