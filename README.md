@@ -23,6 +23,7 @@ PHP8 xdebug3 vscode docker on MacOS
 -   marcha/lumen-routes-list
 -   spatie/laravel-permission
 -   tymon/jwt-auth
+-   fruitcake/laravel-cors
 
 ## Tips
 

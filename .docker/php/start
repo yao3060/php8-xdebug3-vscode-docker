@@ -4,7 +4,9 @@
 # /init 2>&1 &
 
 # run database migrations and seeders
+echo "run: ./artisan migrate --force"
 ./artisan migrate --force
+echo "run ./artisan db:seed"
 ./artisan db:seed
 
 # set storage ownership to www-data

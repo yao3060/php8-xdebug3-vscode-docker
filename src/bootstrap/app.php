@@ -61,6 +61,7 @@ $app->singleton(
 
 $app->configure('app');
 $app->configure('permission');
+$app->configure('cors');
 
 /*
 |--------------------------------------------------------------------------
@@ -102,6 +103,7 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
+$app->register(Fruitcake\Cors\CorsServiceProvider::class);
 
 if (env('APP_ENV') !== 'prod' && env('APP_ENV') !== 'production') {
     $app->register(Marcha\LumenRoutesList\RoutesCommandServiceProvider::class);
