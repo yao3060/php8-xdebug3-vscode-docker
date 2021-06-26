@@ -14,7 +14,13 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    echo <<<EOF
+    <div style="text-align: center;padding-top: 50px;">
+        <h1>{$router->app->version()}</h1>
+        <h2>Open <a target="__black" href="/apidocs/index.html">API Document</a> </h2>
+        <h2>Open <a target="__black" href="/clockwork/app">Clockwork</a>
+    </div>
+    EOF;
 });
 
 $router->group(['prefix' => 'auth/v1'], function () use ($router) {

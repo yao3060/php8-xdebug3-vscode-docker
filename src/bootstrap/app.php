@@ -105,10 +105,9 @@ $app->register(Spatie\Permission\PermissionServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(Fruitcake\Cors\CorsServiceProvider::class);
 
-if (env('APP_ENV') !== 'prod' && env('APP_ENV') !== 'production') {
-    $app->register(Marcha\LumenRoutesList\RoutesCommandServiceProvider::class);
+if (class_exists('Clockwork\Support\Lumen\ClockworkServiceProvider')) {
+    $app->register(Clockwork\Support\Lumen\ClockworkServiceProvider::class);
 }
-
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
-PHP_CONTAINER="$(docker ps -q -f NAME=lumen_php)"
-docker exec -ti \
+# create the dotenv file if it doesn't exist
+if [ ! -f .env ]; then
+  cp .env.default .env
+fi
+
+source .env
+
+# lumen phpunit test
+docker-compose run --rm \
     -e DB_CONNECTION=sqlite \
     -e DB_DATABASE="database/database.sqlite" \
     -e APP_ENV=testing \
@@ -9,5 +16,5 @@ docker exec -ti \
     -e JWT_SECRET=JWT_SECRET \
     -e JWT_TTL=7200 \
     -e QUEUE_CONNECTION=sync \
-    $PHP_CONTAINER \
-    sh -c "./vendor/bin/phpunit $*"
+    lumen_php \
+    sh -c "./vendor/bin/phpunit"

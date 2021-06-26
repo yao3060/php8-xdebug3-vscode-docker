@@ -11,32 +11,37 @@ class RolesAndPermissionsSeeder extends Seeder
 {
     public function run()
     {
-        if (!Role::count()) {
-            // Reset cached roles and permissions
-            app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        // Reset cached roles and permissions
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-            // create permissions
-            $permissions = [
-                'manage_options', 'export', 'import',
-                'switch_themes', 'edit_dashboard', 'customize',
-                'list_users', 'promote_users', 'remove_users', 'edit_users', 'create_users',
-                'manage_categories',
-                'publish_posts', 'edit_posts', 'delete_posts', 'upload_files',
-                'moderate_comments',
-                'read',
-            ];
-            foreach ($permissions as $permission) {
-                Permission::query()->updateOrCreate(['name' => $permission]);
-            }
-
-            // create roles and assign created permissions
-            Role::create(['name' => 'subscriber'])->givePermissionTo('read');
-
-            Role::create(['name' => 'editor'])
-                ->givePermissionTo(['publish_posts', 'edit_posts']);
-
-            Role::create(['name' => 'administrator'])->givePermissionTo(Permission::all());
-            Role::create(['name' => 'super-admin'])->givePermissionTo(Permission::all());
+        // create permissions
+        $permissions = [
+            'manage_options',
+            'export', 'import',
+            'list_users', 'promote_users', 'delete_users', 'edit_users', 'create_users',
+            'manage_categories',
+            'publish_posts', 'edit_posts', 'edit_published_posts', 'delete_posts',
+            'moderate_comments',
+            'upload_files',
+            'read',
+        ];
+        foreach ($permissions as $permission) {
+            Permission::query()->updateOrCreate(['name' => $permission]);
         }
+
+        // create roles and assign created permissions
+        Role::updateOrCreate(['name' => 'subscriber'])
+            ->givePermissionTo('read');
+
+        Role::updateOrCreate(['name' => 'author'])
+            ->givePermissionTo([
+                'upload_files',
+                'publish_posts',
+                'edit_posts',
+                'edit_published_posts'
+            ]);
+
+        Role::updateOrCreate(['name' => 'administrator'])
+            ->givePermissionTo(Permission::all());
     }
 }

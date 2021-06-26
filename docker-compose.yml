@@ -1,14 +1,13 @@
-# Start with a base file that defines the canonical configuration for the services.
-version: "3.7"
+version: "2.3"
 
 services:
   lumen_nginx:
-    image: ${ALIYUN_CONTAINER_REGISTRY}/${COMPOSE_PROJECT_NAME}_lumen_nginx
+    image: ${ALIYUN_CONTAINER_REGISTRY}/${COMPOSE_PROJECT_NAME}_lumen_nginx:latest
     container_name: ${COMPOSE_PROJECT_NAME}_lumen_nginx
     restart: always
 
   lumen_php:
-    image: ${ALIYUN_CONTAINER_REGISTRY}/${COMPOSE_PROJECT_NAME}_lumen_php
+    image: ${ALIYUN_CONTAINER_REGISTRY}/${COMPOSE_PROJECT_NAME}_lumen_php:latest
     container_name: ${COMPOSE_PROJECT_NAME}_lumen_php
     restart: always
 

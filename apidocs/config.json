@@ -1,0 +1,16 @@
+{
+    "name": "Lumen Boilerplate api document",
+    "version": "1.0.0",
+    "description": "Lumen Boilerplate API Document",
+    "title": "Lumen Boilerplate API Document",
+    "url": "http://localhost",
+    "template": {
+        "withCompare": true,
+        "withGenerator": true,
+        "aloneDisplay": false
+    },
+    "header": {
+        "title": "Introduction",
+        "filename": "apidocs/header.md"
+    }
+}

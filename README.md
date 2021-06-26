@@ -20,10 +20,10 @@ PHP8 xdebug3 vscode docker on MacOS
 ## preinstalled packages
 
 -   illuminate/redis
--   marcha/lumen-routes-list
 -   spatie/laravel-permission
 -   tymon/jwt-auth
 -   fruitcake/laravel-cors
+-   itsgoingd/clockwork (debug tool, dev only)
 
 ## Tips
 

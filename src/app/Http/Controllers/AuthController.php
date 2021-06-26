@@ -47,9 +47,15 @@ class AuthController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
+     * @api {post} /auth/v1/login Login
+     * @apiName Login
+     * @apiGroup Auth
+     * @apiDescription get JWT add it to redis cache.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @apiParam {String} username   Users username.
+     * @apiParam {String} password   Users password.
+     *
+     * @apiSuccess {String} token JWT.
      */
     public function login(Request $request)
     {
