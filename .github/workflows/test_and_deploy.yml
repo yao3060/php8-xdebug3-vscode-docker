@@ -54,7 +54,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # 1.1 Login to ACR
       - name: Login to ACR with the AccessKey pair
         uses: aliyun/acr-login@v1
         with:
