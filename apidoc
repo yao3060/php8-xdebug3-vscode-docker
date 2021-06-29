@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 set -aeuo pipefail
 
-# create apidocs/header.md
-touch ./apidocs/header.md
-echo '## Route List' > ./apidocs/header.md
-echo '```' >> ./apidocs/header.md
-docker run --rm -v $(pwd):/app -w /app php:8-fpm-alpine php artisan route:list --no-ansi >> ./apidocs/header.md
-echo '```' >> ./apidocs/header.md
-
 # first build the image after cloning this repository
 docker build -t apidoc/apidoc ./.docker/apidoc
 
