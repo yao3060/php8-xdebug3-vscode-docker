@@ -15,6 +15,8 @@ env:
   IMAGE_PREFIX: lumen8-boilerplate
   TAG: ${{ github.sha }}
   ACK_CLUSTER_ID: clusterID
+  ENVIRONMENT: staging
+
 jobs:
   tests:
     # runs-on: ubuntu-latest
@@ -54,6 +56,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: get shortsha
+        id: vars
+        run: |
+          echo ::set-output name=sha_short::$(git rev-parse --short=8 ${{ github.sha }})
+
+      - name: use env
+        run: |
+          echo $SHORTSHA
+        env:
+          SHORTSHA: ${{ steps.vars.outputs.sha_short }}
+
+      # 1.1 Login to ACR
       - name: Login to ACR with the AccessKey pair
         uses: aliyun/acr-login@v1
         with:
@@ -62,14 +76,16 @@ jobs:
           access-key-secret: "${{ secrets.ACCESS_KEY_SECRET }}"
 
       - name: Build and push php and nginx images to ACR
+        env:
+          SHORTSHA: ${{ steps.vars.outputs.sha_short }}
         run: |
-          docker build --target php --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:${TAG}" -f .docker/Dockerfile .
-          docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:${TAG}"
-          docker tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:${TAG}" "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest"
+          docker build --target php --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA" -f .docker/Dockerfile .
+          docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA"
+          docker tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:$SHORTSHA" "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest"
           docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest"
-          docker build --target nginx --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:${TAG}" -f .docker/Dockerfile .
-          docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:${TAG}"
-          docker tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:${TAG}" "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:latest"
+          docker build --target nginx --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA" -f .docker/Dockerfile .
+          docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA"
+          docker tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:$SHORTSHA" "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:latest"
           docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_nginx:latest"
 
       # 1.3 Scan image in ACR
