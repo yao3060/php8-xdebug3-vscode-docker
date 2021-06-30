@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-nginx
+spec:
+  template:
+    spec:
+      containers:
+        - image: null
+          name: backend-nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-php
+spec:
+  template:
+    spec:
+      containers:
+        - image: null
+          name: backend-php
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-php
+spec:
+  template:
+    spec:
+      volumes:
+        - name: laravel-storage
+          persistentVolumeClaim:
+            claimName: blue-yyy-staging-laravel-storage-claim
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: laravel-storage-claim
+  namespace: default
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cronjob-test
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - image: nginx:alpine
+              name: cronjob-test

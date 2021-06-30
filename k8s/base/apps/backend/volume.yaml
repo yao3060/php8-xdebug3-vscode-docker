@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  finalizers:
+    - kubernetes.io/pvc-protection
+  name: laravel-storage-claim
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  # specify microk8s-hostpath
+  storageClassName: microk8s-hostpath
+  resources:
+    requests:
+      storage: 5Gi

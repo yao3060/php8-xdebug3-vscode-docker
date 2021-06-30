@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  template:
+    spec:
+      volumes:
+      - name: mysql-vol
+        persistentVolumeClaim:
+          claimName: blue-yyy-staging-mysql-volume-claim
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-volume-claim
+  namespace: default
+spec:
+  resources:
+    requests:
+      storage: 5Gi

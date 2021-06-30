@@ -1,0 +1,49 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namePrefix: blue-yyy-staging-
+commonLabels:
+  app: blue-yyy
+bases:
+  - ../../base/apps
+  - ../../base/db
+patchesStrategicMerge:
+  - backend/overlays.yaml
+  - mysql/overlays.yaml
+
+configMapGenerator:
+  - name: public-overlays
+    literals:
+      - api_host=blue.yaoyingying.com
+      - admin_host=blue.yaoyingying.com
+      - DB_HOST=blue-yyy-staging-mysql
+      - DB_PORT=3306
+      - DB_DATABASE=domain
+      - DB_PREFIX=ka_
+      - LARAVEL_HTTP_PORT=9000
+      - APP_NAME="kids around loyalty"
+      - APP_ENV=staging
+      - APP_KEY=base64:gT5YBxoHuFZqzPGU9CO26koLyE6YQkkLK+cH9dKQD8g=
+      - APP_DEBUG=true
+      - APP_URL=https://blue.yaoyingying.com
+      - APP_TIMEZONE=Asia/Shanghai
+      - APP_LOCALE=zh_CN
+      - LOG_CHANNEL=errorlog
+      - DB_CONNECTION=mysql
+      - BROADCAST_DRIVER=log
+      - CACHE_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+      - SESSION_DRIVER=redis
+      - SESSION_LIFETIME=120
+      - REDIS_CLIENT=phpredis
+      - REDIS_CLUSTER=phpredis
+      - REDIS_HOST=blue-yyy-staging-cache
+      - REDIS_PASSWORD=null
+      - REDIS_PORT=6379
+      - MAIL_DRIVER=log
+      - MAIL_HOST=smtp.mailtrap.io
+      - MAIL_PORT=2525
+      - MAIL_USERNAME=null
+      - MAIL_PASSWORD=null
+      - MAIL_ENCRYPTION=null
+      - JWT_SECRET=N0FZnCy8MBBaLKsIcGN8ugJhQdPOjpXNsEiXigeyl1fy47vpuuo5GROeXp1aMyVw
+      - JWT_TTL=86400
