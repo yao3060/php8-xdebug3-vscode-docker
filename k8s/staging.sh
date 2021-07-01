@@ -27,8 +27,8 @@ else
 fi
 
 # test config file
-kubectl kustomize overlays/staging/
-# kubectl apply -k overlays/staging/
+# kubectl kustomize overlays/staging/
+kubectl apply -k overlays/staging/
 
 echo "Set image tags back to 'MYNEWTAG'"
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then

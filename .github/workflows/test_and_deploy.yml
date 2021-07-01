@@ -8,8 +8,8 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow.
 env:
-  REGION_ID: cn-hangzhou
-  REGISTRY: registry.cn-hangzhou.aliyuncs.com
+  REGION_ID: cn-hongkong
+  REGISTRY: registry.cn-hongkong.aliyuncs.com
   NAMESPACE: yao3060
   IMAGE: lumen8-boilerplate
   IMAGE_PREFIX: lumen8-boilerplate
