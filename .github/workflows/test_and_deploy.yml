@@ -66,6 +66,8 @@ jobs:
 
       - name: Build and push php and nginx images to ACR
         run: |
+          echo "generate apidoc to publish folder"
+          ./apidoc
           docker build --target php --tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:${TAG}" -f .docker/Dockerfile .
           docker push "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:${TAG}"
           docker tag "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:${TAG}" "$REGISTRY/$NAMESPACE/${IMAGE_PREFIX}_${ENVIRONMENT}_lumen_php:latest"

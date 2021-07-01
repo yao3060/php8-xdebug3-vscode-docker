@@ -5,6 +5,10 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-blue-yyy"
 spec:
+  tls:
+    - hosts:
+        - mydomain.com
+      secretName: tls-secret
   rules:
   - host: mydomain.com
     http:
@@ -16,8 +20,3 @@ spec:
             name: backend-nginx
             port:
               number: 80
-
-  tls:
-    - hosts:
-        - mydomain.com
-      secretName: blue-yyy-tls-secret

@@ -26,7 +26,7 @@ spec:
             [
               "sh",
               "-c",
-              "sed -i 's/laravel_php/$(UPSTREAM_ADMIN)/' /etc/nginx/conf.d/default.conf; exec nginx -g 'daemon off;'",
+              "sed -i 's/lumen_php/$(UPSTREAM_ADMIN)/' /etc/nginx/conf.d/default.conf; exec nginx -g 'daemon off;'",
             ]
 ---
 apiVersion: apps/v1

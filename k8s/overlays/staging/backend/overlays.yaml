@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: backend-nginx
 spec:
+  replicas: 2
   template:
     spec:
       imagePullSecrets:
