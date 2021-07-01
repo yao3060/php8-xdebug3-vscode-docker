@@ -10,6 +10,12 @@ patchesStrategicMerge:
   - backend/overlays.yaml
   - mysql/overlays.yaml
 
+images:
+  - name: registry-vpc.cn-hangzhou.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_nginx
+    newTag: MYNEWTAG
+  - name: registry-vpc.cn-hangzhou.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_php
+    newTag: MYNEWTAG
+
 configMapGenerator:
   - name: public-overlays
     literals:
