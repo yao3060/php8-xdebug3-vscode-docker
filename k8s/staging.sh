@@ -7,8 +7,8 @@ fi
 cp overlays/staging/secrets.txt base/apps/secrets.txt
 cp overlays/staging/secrets.txt base/db/secrets.txt
 
-# FULLSHA=$(git rev-parse HEAD)
-FULLSHA="0897f5231a5d93de15d194f01bdae3fe61e1580e"
+FULLSHA=$(git rev-parse HEAD)
+# FULLSHA="0897f5231a5d93de15d194f01bdae3fe61e1580e"
 
 RED='\033[0;31m'
 NC='\033[0m' # No Color
