@@ -17,9 +17,9 @@ patches:
   path: backend/ingress-patch.json
 
 images:
-  - name: registry-vpc.cn-hangzhou.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_nginx
+  - name: registry.cn-hongkong.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_nginx
     newTag: MYNEWTAG
-  - name: registry-vpc.cn-hangzhou.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_php
+  - name: registry.cn-hongkong.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_php
     newTag: MYNEWTAG
 
 secretGenerator:

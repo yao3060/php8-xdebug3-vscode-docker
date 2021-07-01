@@ -67,7 +67,7 @@ RUN chmod +x /wait
 COPY ./.docker/php/start /start
 RUN chmod +x /start
 
-CMD ["/wait", "/start", "php-fpm"]
+CMD ["/start"]
 
 
 FROM nginx:1.19-alpine as nginx
