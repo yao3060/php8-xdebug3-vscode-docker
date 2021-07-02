@@ -12,7 +12,7 @@ echo "Get develop branch git sha from remote:"
 # GITSHA=$(git rev-parse HEAD)
 GIT_REMOTE=$(git config --get remote.origin.url)
 FULLSHA=$(git ls-remote ${GIT_REMOTE} refs/heads/main | awk '{ print $1}')
-# FULLSHA="0897f5231a5d93de15d194f01bdae3fe61e1580e"
+FULLSHA="latest"
 
 RED='\033[0;31m'
 NC='\033[0m' # No Color

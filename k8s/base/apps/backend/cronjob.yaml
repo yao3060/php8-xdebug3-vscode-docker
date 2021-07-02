@@ -6,6 +6,7 @@ metadata:
     app: cronjob-test
 spec:
   schedule: "*/10 * * * *"
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
       template:
@@ -27,8 +28,9 @@ spec:
                     secretKeyRef:
                       name: secrets
                       key: DB_PASSWORD
-              args:
-                - echo
-                - "this is cronjob: $(date '+%Y-%m-%d %H:%M:%S')"
+              command:
+                - /bin/sh
+                - -c
+                - date '+%Y-%m-%d %H:%M:%S'; echo "this is cronjob"
           restartPolicy: OnFailure
 ---
