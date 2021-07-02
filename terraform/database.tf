@@ -18,23 +18,23 @@ resource "alicloud_db_instance" "instance" {
 #   resource_group_id    = alicloud_resource_manager_resource_group.project.id
 }
 
-resource "alicloud_db_database" "magento" {
+resource "alicloud_db_database" "db_name" {
   instance_id   = alicloud_db_instance.instance.id
-  name          = "magento"
+  name          = "db_name"
   character_set = "utf8"
 }
 
-resource "alicloud_db_account" "magento" {
+resource "alicloud_db_account" "db_account" {
   instance_id = alicloud_db_instance.instance.id
-  name        = "magento"
-  password    = var.magento_db_password
+  name        = "db_account"
+  password    = var.db_password
 }
 
-resource "alicloud_db_account_privilege" "magento" {
+resource "alicloud_db_account_privilege" "db_account" {
   instance_id  = alicloud_db_instance.instance.id
-  account_name = alicloud_db_account.magento.name
+  account_name = alicloud_db_account.db_name.name
   privilege    = "ReadWrite"
-  db_names     = [alicloud_db_database.magento.name]
+  db_names     = [alicloud_db_database.db_name.name]
 }
 
 #####################

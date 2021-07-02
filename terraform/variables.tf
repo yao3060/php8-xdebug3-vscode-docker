@@ -80,6 +80,6 @@ variable "redis_instance_type" {
   default = "redis.master.micro.default"
 }
 
-variable "magento_db_password" {
+variable "db_password" {
   type = string
 }

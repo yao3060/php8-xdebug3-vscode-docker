@@ -16,7 +16,7 @@ Create a `secrets-{ENV}.tfvars` file containing the required secrets to be used.
 ```
 access_key          = "ALIYUN ACCESS KEY"
 secret_key          = "ALIYUN SECRET KEY"
-magento_db_password = "MAGENTO DB PASSWORD"
+db_password         = "DB PASSWORD"
 ```
 
 ## How to run

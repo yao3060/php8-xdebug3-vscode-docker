@@ -19,6 +19,11 @@ spec:
       containers:
         - image: registry-vpc.cn-hangzhou.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_php:latest
           name: backend-php
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 200m
 ---
 apiVersion: apps/v1
 kind: Deployment
