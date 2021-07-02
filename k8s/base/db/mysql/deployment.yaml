@@ -23,7 +23,10 @@ spec:
         args: ["--default-authentication-plugin=mysql_native_password"]
         env:
         - name: MYSQL_DATABASE
-          value: $(MYSQL_DATABASE)
+          valueFrom:
+            secretKeyRef:
+              name: secrets-db
+              key: DB_DATABASE
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:

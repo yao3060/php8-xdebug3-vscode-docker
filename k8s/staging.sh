@@ -8,7 +8,7 @@ cp overlays/staging/secrets.txt base/apps/secrets.txt
 cp overlays/staging/secrets.txt base/db/secrets.txt
 
 FULLSHA=$(git rev-parse HEAD)
-# FULLSHA="0.0.0-${GITSHA:0:8}"
+# FULLSHA="0897f5231a5d93de15d194f01bdae3fe61e1580e"
 
 RED='\033[0;31m'
 NC='\033[0m' # No Color
@@ -27,8 +27,8 @@ else
 fi
 
 # test config file
-kubectl kustomize overlays/staging/
-# kubectl apply -k overlays/staging/
+# kubectl kustomize overlays/staging/
+kubectl apply -k overlays/staging/
 
 echo "Set image tags back to 'MYNEWTAG'"
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then

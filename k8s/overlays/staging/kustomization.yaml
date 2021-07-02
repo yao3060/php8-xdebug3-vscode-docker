@@ -10,23 +10,33 @@ patchesStrategicMerge:
   - backend/overlays.yaml
   - mysql/overlays.yaml
 
+patches:
+- target:
+    kind: Ingress
+    name: backend-ingress
+  path: backend/ingress-patch.json
+
 images:
-  - name: registry-vpc.cn-hangzhou.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_nginx
+  - name: registry.cn-hongkong.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_nginx
     newTag: MYNEWTAG
-  - name: registry-vpc.cn-hangzhou.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_php
+  - name: registry.cn-hongkong.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_php
     newTag: MYNEWTAG
+
+secretGenerator:
+  - name: blue-yyy-regcred
+    files:
+      - .dockerconfigjson
+    type: kubernetes.io/dockerconfigjson
 
 configMapGenerator:
   - name: public-overlays
     literals:
-      - api_host=blue.yaoyingying.com
-      - admin_host=blue.yaoyingying.com
       - DB_HOST=blue-yyy-staging-mysql
       - DB_PORT=3306
       - DB_DATABASE=domain
       - DB_PREFIX=ka_
       - LARAVEL_HTTP_PORT=9000
-      - APP_NAME="kids around loyalty"
+      - APP_NAME="My Blue Website"
       - APP_ENV=staging
       - APP_KEY=base64:gT5YBxoHuFZqzPGU9CO26koLyE6YQkkLK+cH9dKQD8g=
       - APP_DEBUG=true

@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-blue-yyy
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    #change to your email
+    email: yao3060@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-blue-yyy
+    solvers:
+      - http01:
+          ingress:
+            class: public

@@ -1,17 +1,7 @@
 #!/bin/sh
 
 # Put init process as background
-# /init 2>&1 &
-
-# run database migrations and seeders
-echo "run: ./artisan migrate --force"
-./artisan migrate --force
-echo "run ./artisan db:seed"
-./artisan db:seed
-
-# set storage ownership to www-data
-# it's possible that above commands caused an error and this might create a log file as the root user
-chown -R www-data /var/www/html/storage
+/init 2>&1 &
 
 # start php-fpm
 php-fpm

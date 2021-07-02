@@ -3,10 +3,13 @@ kind: Deployment
 metadata:
   name: backend-nginx
 spec:
+  replicas: 2
   template:
     spec:
+      imagePullSecrets:
+        - name: blue-yyy-regcred
       containers:
-        - image: registry-vpc.cn-hangzhou.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_nginx:latest
+        - image: registry.cn-hongkong.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_nginx:latest
           name: backend-nginx
 ---
 apiVersion: apps/v1
@@ -14,10 +17,13 @@ kind: Deployment
 metadata:
   name: backend-php
 spec:
+  replicas: 2
   template:
     spec:
+      imagePullSecrets:
+        - name: blue-yyy-regcred
       containers:
-        - image: registry-vpc.cn-hangzhou.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_php:latest
+        - image: registry.cn-hongkong.aliyuncs.com/yao3060/lumen8-boilerplate_staging_lumen_php:latest
           name: backend-php
           resources:
             limits:
@@ -47,7 +53,7 @@ spec:
     requests:
       storage: 5Gi
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: cronjob-test

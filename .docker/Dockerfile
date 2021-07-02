@@ -59,15 +59,11 @@ RUN touch /var/www/html/storage/logs/lumen.log && \
   chmod -R 775 /var/www/html/storage  && \
   chmod +x /var/www/html/artisan
 
-## Add the wait script to the image
-COPY ./.docker/wait /wait
-RUN chmod +x /wait
-
 # copy start script to image
 COPY ./.docker/php/start /start
-RUN chmod +x /start
+COPY ./.docker/php/init /init
 
-CMD ["/wait", "/start", "php-fpm"]
+CMD ["/start"]
 
 
 FROM nginx:1.19-alpine as nginx
