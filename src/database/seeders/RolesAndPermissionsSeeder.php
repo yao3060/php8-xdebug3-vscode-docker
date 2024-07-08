@@ -43,5 +43,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Role::updateOrCreate(['name' => 'administrator'])
             ->givePermissionTo(Permission::all());
+
+        Role::updateOrCreate(['name' => 'super-admin'])
+            ->givePermissionTo(Permission::all());
     }
 }

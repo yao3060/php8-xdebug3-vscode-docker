@@ -2,25 +2,14 @@ FROM composer:2 as composer
 
 # copy source code to image
 COPY ./src/composer.json ./src/composer.lock /app/
-RUN composer install --no-scripts --no-autoloader --no-dev --prefer-dist -vvv
+RUN composer install --ignore-platform-reqs --no-scripts --no-autoloader --no-dev --prefer-dist -vvv
 
-FROM php:8-fpm-alpine as php
+FROM php:8.3-fpm-alpine as php
 
 ARG APP_ENV
+
 # add phpredis to php-available-exts (install in the next step)
-ENV PHPREDIS_VERSION 5.3.2
-
-# install required php extensions
-RUN if [ "$APP_ENV" = "local" ]; then apk add --no-cache $PHPIZE_DEPS && pecl install xdebug && docker-php-ext-enable xdebug; fi
-
-RUN if [ "$APP_ENV" = "local" ]; then { \
-  echo "xdebug.mode=debug"; \
-  echo "xdebug.client_host = host.docker.internal"; \
-  echo "xdebug.client_port = 9003"; \
-  echo "xdebug.start_with_request = yes";\
-  echo "xdebug.output_dir = /tmp/grinds"; \
-} >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; fi
-
+ENV PHPREDIS_VERSION 5.3.7
 RUN mkdir -p /usr/src/php/ext/redis \
   && curl -L https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
   && echo 'redis' >> /usr/src/php-available-exts
@@ -58,6 +47,19 @@ RUN touch /var/www/html/storage/logs/lumen.log && \
   find /var/www/html -type d -exec chmod 755 {} \; && \
   chmod -R 775 /var/www/html/storage  && \
   chmod +x /var/www/html/artisan
+
+
+# install required php extensions
+# RUN if [ "$APP_ENV" = "local" ]; then apk add --no-cache $PHPIZE_DEPS && pecl install xdebug && docker-php-ext-enable xdebug; fi
+
+# RUN if [ "$APP_ENV" = "local" ]; then { \
+#   echo "xdebug.mode=debug"; \
+#   echo "xdebug.client_host = host.docker.internal"; \
+#   echo "xdebug.client_port = 9003"; \
+#   echo "xdebug.start_with_request = yes";\
+#   echo "xdebug.output_dir = /tmp/grinds"; \
+# } >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; fi
+
 
 # copy start script to image
 COPY ./.docker/php/start /start

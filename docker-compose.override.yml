@@ -12,8 +12,6 @@ services:
       - 8080:80
     depends_on:
       - lumen_php
-    environment:
-      WAIT_HOSTS: lumen_php:9000
     volumes:
       - ./src/public:/var/www/html/public
 
@@ -28,16 +26,25 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
     environment:
-      XDEBUG_CONFIG: client_host=host.docker.internal
-      WAIT_HOSTS: lumen_cache:6379, lumen_db:3306
+      APP_DEBUG: ${APP_DEBUG}
+      # XDEBUG_CONFIG: client_host=host.docker.internal
     depends_on:
-      - lumen_cache
-      - lumen_db
+      lumen_cache:
+        condition: service_started
+      lumen_db:
+        condition: service_healthy
+
     command: sh -c "composer install && php-fpm"
 
   lumen_db:
     image: mysql:8
     restart: always
+    command: "--log-error-suppression-list=MY-013360"
+    healthcheck:
+      test: '/usr/bin/mysql --user=root --password=root --execute "SHOW DATABASES;"'
+      interval: 2s
+      timeout: 20s
+      retries: 10
     environment:
       - MYSQL_DATABASE=domain
       - MYSQL_ROOT_PASSWORD=root

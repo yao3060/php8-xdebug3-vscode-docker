@@ -17,4 +17,4 @@ fi
 source .env
 
 
-./docker-compose up
+docker-compose $@

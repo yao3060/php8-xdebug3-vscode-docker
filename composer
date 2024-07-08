@@ -3,9 +3,11 @@
 mkdir -p $HOME/.composer
 
 docker run --rm -ti \
-  -u $UID \
-  -v $PWD/src:/app \
-  -v /etc/passwd:/etc/passwd \
-  -v $HOME/.composer:/tmp \
-  composer:2 $@
+  --env COMPOSER_HOME \
+  --env COMPOSER_CACHE_DIR \
+  --volume ${COMPOSER_HOME:-$HOME/.config/composer}:$COMPOSER_HOME \
+  --volume $HOME/.composer:/tmp \
+  --volume $PWD/src:/app \
+  -user $(id -u):$(id -g) \
+  composer:2.7.7 $@
 
